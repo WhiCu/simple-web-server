@@ -1,0 +1,100 @@
+<!DOCTYPE html>  
+<html lang="ru">  
+    
+    <head>  
+        <meta charset="UTF-8">  
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+        <title>Глаз следит за мышью</title>  
+        <script src='//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js'></script>
+        
+    </head>  
+
+    <body>  
+        <main>
+            <div class="eye">  
+                <div class="pupil"></div>  
+            </div>  
+            <h2>Ввод данных</h2>
+            <form method="POST">
+                <label>Email</label><br>
+                <input type="text" name="email" /><br><br>
+                <label>Password</label><br>
+                <input type="text" name="password" /><br><br>
+                <input type="submit" value="Отправить" />
+            </form>
+            <h1>Email: {{ .Email}}</h1>
+            <h1>Password: {{ .Password}}</h1>
+        </main>
+    </body> 
+    <script>
+        document.addEventListener('mousemove', (event) => {  
+        const eye = document.querySelector('.eye');  
+        const pupil = document.querySelector('.pupil');  
+    
+        const eyeRect = eye.getBoundingClientRect();  
+        const eyeCenterX = eyeRect.left + eyeRect.width / 2;  
+        const eyeCenterY = eyeRect.top + eyeRect.height / 2;  
+        
+        const deltaX = event.clientX - eyeCenterX;  
+        const deltaY = event.clientY - eyeCenterY;  
+        
+        const angle = Math.atan2(deltaY, deltaX);  
+        const distance = Math.min(eyeRect.width / 4, Math.sqrt(deltaX * deltaX + deltaY * deltaY));  
+    
+        const pupilX = distance * Math.cos(angle);  
+        const pupilY = distance * Math.sin(angle);  
+        
+        pupil.style.transform = `translate(${pupilX}px, ${pupilY}px)`;  
+        });
+
+        $(document).ready(function () {
+            $('form').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: 'postform',
+                    method: 'post',
+                    //dataType: 'html',
+                    data: $('form').serialize(),
+                    // success : function(data) {
+                    //     alert('ajax data posted');
+                    // },
+                });
+            });
+        });
+        
+    </script>
+</html> 
+
+<style>
+    body {  
+    margin: 0;  
+    padding: 0;  
+    background-color: whitesmoke;  
+    height: 100vh;   
+    display: flex; /* Используем Flexbox для центрирования */  
+    justify-content: center; /* Центрируем по горизонтали */  
+    align-items: center; /* Центрируем по вертикали */  
+} 
+
+.eye {  
+    width: 20vh;  
+    height: 20vh;  
+    margin: 1vh ;
+    background-color: white;  
+    border-radius: 10vh;  
+    position: relative;   
+    border: 1vh solid #ccc;  
+}  
+
+.pupil {  
+    width: 4vh;  
+    height: 4vh;  
+    background-color: black;  
+    border-radius: 50%;  
+    position: absolute;  
+    top: 40%;  
+    left: 40%;  
+    transform: translate(-50%, -50%);  
+    transition: transform 0.1s;  
+}  
+</style>
