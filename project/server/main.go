@@ -55,6 +55,8 @@ func main() {
 	mux.HandleFunc("/json", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "data.json")
 	})
+
+	mux.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
 	fmt.Println("Server is listening...")
 	http.ListenAndServe(":8080", mux)
 }

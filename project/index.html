@@ -1,16 +1,20 @@
 <!DOCTYPE html>  
 <html lang="ru">  
-    
+
     <head>  
         <meta charset="UTF-8">  
         <meta name="viewport" content="width=device-width, initial-scale=1.0">  
         <title>Глаз следит за мышью</title>  
         <script src='//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js'></script>
-        
+        <script src="assets/script.js"></script>
+        <link rel="stylesheet" href="/assets/styles.css">
     </head>  
 
-    <body>  
+    <body> 
         <main>
+            <div>
+                <h1>САЙТ с Floppa sprite</h1>
+            </div> 
             <div class="eye">  
                 <div class="pupil"></div>  
             </div>  
@@ -25,28 +29,15 @@
             <h1>Email: {{ .Email}}</h1>
             <h1>Password: {{ .Password}}</h1>
         </main>
+        <div>
+            <figure>
+                <img src="assets/Floppa-sprite.png" alt="Шлёпа спрайт" width="400" height="400">
+                <figcaption><font color="green" face="Arial">Floppa sprite </font></figcaption>
+            </figure>
+        </div>
     </body> 
+    
     <script>
-        document.addEventListener('mousemove', (event) => {  
-        const eye = document.querySelector('.eye');  
-        const pupil = document.querySelector('.pupil');  
-    
-        const eyeRect = eye.getBoundingClientRect();  
-        const eyeCenterX = eyeRect.left + eyeRect.width / 2;  
-        const eyeCenterY = eyeRect.top + eyeRect.height / 2;  
-        
-        const deltaX = event.clientX - eyeCenterX;  
-        const deltaY = event.clientY - eyeCenterY;  
-        
-        const angle = Math.atan2(deltaY, deltaX);  
-        const distance = Math.min(eyeRect.width / 4, Math.sqrt(deltaX * deltaX + deltaY * deltaY));  
-    
-        const pupilX = distance * Math.cos(angle);  
-        const pupilY = distance * Math.sin(angle);  
-        
-        pupil.style.transform = `translate(${pupilX}px, ${pupilY}px)`;  
-        });
-
         $(document).ready(function () {
             $('form').on('submit', function (e) {
                 e.preventDefault();
@@ -55,17 +46,16 @@
                     method: 'post',
                     //dataType: 'html',
                     data: $('form').serialize(),
-                    // success : function(data) {
-                    //     alert('ajax data posted');
-                    // },
+                    success : function(data) {
+                         alert('ajax data posted');
+                    },
                 });
             });
         });
-        
     </script>
 </html> 
 
-<style>
+<!-- <style>
     body {  
     margin: 0;  
     padding: 0;  
@@ -97,4 +87,4 @@
     transform: translate(-50%, -50%);  
     transition: transform 0.1s;  
 }  
-</style>
+</style> -->
